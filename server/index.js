@@ -10,10 +10,13 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-massive(CONNECTION_STRING).then(db => {
-    app.set('db', db)
-    console.log('db connected')
-})
+massive({
+	connectionString: CONNECTION_STRING,
+	ssl: { rejectUnauthorized: false }
+}).then(db => {
+	app.set("db", db);
+	console.log("db connected");
+});
 
 app.get('/api/characters', cc.getAllCharacters)
 app.get('/api/character/:id', cc.getCharacter)
